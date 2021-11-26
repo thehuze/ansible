@@ -1,0 +1,22 @@
+# Создание сертификата    
+- name: OpenSSL certificate generation
+  hosts: web1
+  tasks:
+  - name: '/opt/ca/certificate.crt'
+    command: mkdir /opt/ca/
+  
+  - openssl_privatekey:
+      path: /opt/ca/private.key
+      size: 2048 
+
+  - openssl_csr:
+      path: /opt/ca/request.csr
+      privatekey_path: /opt/ca/private.key
+      common_name: '*.unakbars.ru'
+
+  - openssl_certificate:
+      provider: selfsigned
+      path: /opt/ca/certificate.crt
+      privatekey_path: /opt/ca/private.key
+      csr_path: /opt/ca/request.csr
+    

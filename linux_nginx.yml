@@ -1,0 +1,22 @@
+    
+# Устанавливаем nginx и копируем готовый конфиг
+- name: OpenSSL certificate generation
+  hosts: web1
+  tasks:
+  - name: Nginx packets download
+    package:
+      name: nginx, sshpass
+      state: present
+  
+  - name: Copy a prepared nginx.conf
+    copy:
+      src: /opt/nginx.conf
+      dest: /etc/nginx/nginx.conf
+      owner: root
+      group: root
+      mode: '0777'
+      backup: yes
+      
+  - name: Start nginx proccess
+    shell: systemctl start --now nginx
+ 

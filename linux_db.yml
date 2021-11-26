@@ -1,0 +1,22 @@
+# Установка БД
+- name: Linux config
+  hosts: db
+  tasks:
+  - name: Postgresql package download
+    package:
+     name: postgresql, postgresql-contrib
+     state: present
+   
+  - name: Prepare DB - user configuration
+    command: "{{item}}"
+    loop:
+    - sudo -u postgres createuser -dls admin
+    - sudo -u postgres psql -c "ALTER USER admin WITH PASSWORD 'Passw0rd_';"
+    - 'sudo -u postgres psql -c "CREATE DATABASE admin;"'
+  
+  - name: Prepare DB - Allow to connect
+    command: "{{item}}"
+    loop:
+    - echo "listen_addresses = '*'" >> /etc/postgresql/12/main/postgresql.conf
+    - echo "host all all 0.0.0.0/0 md5" >> /etc/postgresql/12/main/pg_hba.conf
+    

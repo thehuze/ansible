@@ -1,0 +1,23 @@
+# Настраиваем NTP    
+- name: NTP configuration
+  hosts: web1, web2, db
+  tasks:
+  - name: NTP packages download
+    package:
+     name: chrony
+     state: present
+  
+  - name: Copy a prepared chrony.conf
+    copy:
+      src: /opt/chrony.conf
+      dest: /etc/chrony/chrony.conf
+      owner: root
+      group: root
+      mode: '0777'
+      backup: yes
+  
+  - name: NTP configure
+    command: "{{item}}"
+    loop:
+    - timedatectl set-timezone Europe/Moscow
+    - systemctl restart chrony
