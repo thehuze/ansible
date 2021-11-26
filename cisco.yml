@@ -76,15 +76,14 @@
     lines:
     - ip nat inside
     
-   - name: NTP enable
+  - name: NTP enable
     ios_config:
     lines:
     - ntp server 200.100.100.254
     - ntp update-calendar
     
-    
-    # RIGHT ROUTER CONF
-- name: Cisco configuration for right.pod
+# RIGHT ROUTER CONF
+- name: Cisco configuration
   hosts: right.pod
   tasks:
   - name: Set 192.168.200.254 gi2 left
@@ -98,75 +97,75 @@
     ios_config:
     parents: router ospf 1
     lines:
-    - network 192.168.200.0 0.0.0.255 area 0
-    - network 200.100.100.0 0.0.0.255 area 0
+      - network 192.168.200.0 0.0.0.255 area 0
+      - network 200.100.100.0 0.0.0.255 area 0
   
   - name: isakmp enable
     ios_config:
     lines:
-    - crypto isakmp enable
+      - crypto isakmp enable
     
   - name: isakmp configuration
     ios_config:
     parents: crypto isakmp policy 1
     lines:
-    - authentication pre-share
-    - encryption des
-    - hash md5
-    - group 5
+      - authentication pre-share
+      - encryption des
+      - hash md5
+      - group 5
     
   - name: isakmp key configuration
     ios_config:
     lines:
-    - crypto isakmp key cisco hostname left.pod.unakbars.ru
+      - crypto isakmp key cisco hostname left.pod.unakbars.ru
     
   - name: ipsec transform set
     ios_config:
     parents: crypto ipsec transform-set SET1 esp-des esp-md5-hmac
     lines:
-    - mode tunnel
+      - mode tunnel
     
   - name: ipsec transform set
     ios_config:
     parents: crypto ipsec profile VPN1
     lines:
-    - set transform-set SET1
+      - set transform-set SET1
     
   - name: tunnel configuration
     ios_config:
     parents: int tunnel 1
     lines:
-    - ip address 100.100.100.2 255.255.255.252
-    - tunnel mode gre ip
-    - tunnel destination left.pod.unakbars.ru
-    - tunnel source gi1
-    - tunnel protection ipsec profile VPN1
+      - ip address 100.100.100.2 255.255.255.252
+      - tunnel mode gre ip
+      - tunnel destination left.pod.unakbars.ru
+      - tunnel source gi1
+      - tunnel protection ipsec profile VPN1
   
   - name: ACL for NAT and IPSec
     ios_config:
     lines:
-    - access-list 100 deny ip 192.168.200.0 0.0.0.255 192.168.100.0 0.0.0.255
-    - access-list 100 permit ip 192.168.200.0 0.0.0.255 any
-    - ip nat inside source list 100 interface g1 overload
-    - ip nat inside source static tcp 192.168.200.10 22 interface g1 2222
+      - access-list 100 deny ip 192.168.200.0 0.0.0.255 192.168.100.0 0.0.0.255
+      - access-list 100 permit ip 192.168.200.0 0.0.0.255 any
+      - ip nat inside source list 100 interface g1 overload
+      - ip nat inside source static tcp 192.168.200.10 22 interface g1 2222
     
   - name: PAT - gi1
     ios_config:
     parents: int gi1
     lines:
-    - ip nat outside
+      - ip nat outside
   
   - name: PAT - gi2
     ios_config:
     parents: int gi2
     lines:
-    - ip nat inside
+      - ip nat inside
     
-   - name: NTP enable
+  - name: NTP enable
     ios_config:
     lines:
-    - ntp server 200.100.100.254
-    - ntp update-calendar
+      - ntp server 200.100.100.254
+      - ntp update-calendar
     
     
     
