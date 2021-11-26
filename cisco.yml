@@ -123,103 +123,18 @@
       - hash md5
       - group 5
     
-  - name: left.pod - isakmp key configuration
+  - name: right.pod - isakmp key configuration
     ios_config:
       lines:
       - crypto isakmp key cisco hostname right.pod.unakbars.ru
     
-  - name: left.pod - ipsec transform set
-    ios_config:
-      parents: crypto ipsec transform-set SET1 esp-des esp-md5-hmac
-      lines:
-      - mode tunnel
-    
-  - name: left.pod - ipsec profile
-    ios_config:
-      parents: crypto ipsec profile VPN1
-      lines:
-      - set transform-set SET1
-    
-  - name: left.pod - tunnel configuration
-    ios_config:
-      parents: int tunnel 1
-      lines:
-      - ip address 100.100.100.1 255.255.255.252
-      - tunnel destination right.pod.unakbars.ru
-      - tunnel mode gre ip
-      - tunnel source gi1
-      - tunnel protection ipsec profile VPN1
-  
-  - name: left.pod - ACL for NAT and IPSec
-    ios_config:
-      lines:
-      - access-list 100 deny ip 192.168.100.0 0.0.0.255 192.168.200.0 0.0.0.255
-      - access-list 100 permit gre 192.168.100.0 0.0.0.255 any
-      - ip nat inside source list 100 interface g1 overload
-      - ip nat inside source static tcp 192.168.100.10 22 interface g1 2222
-    
-  - name: left.pod - PAT - gi1
-    ios_config:
-      parents: int gi1
-      lines:
-      - ip nat outside
-  
-  - name: left.pod - PAT - gi2
-    ios_config:
-      parents: int gi2
-      lines:
-      - ip nat inside
-    
-  - name: left.pod - NTP enable
-    ios_config:
-      lines:
-      - ntp server 200.100.100.254
-      - clock timezone UTC 3
-    
-# RIGHT ROUTER CONF
-- name: Cisco configuration
-  hosts: right.pod
-  tasks:
-  - name: Set 192.168.200.254 gi2 left
-    ios_config:
-      parents: "interface gi2"
-      lines:
-      - ip address 192.168.200.254 255.255.255.0
-      - no shut
-  
-  - name: right.pod - OSPF routing 
-    ios_config:
-      parents: router ospf 1
-      lines:
-      - network 192.168.200.0 0.0.0.255 area 0
-      - network 200.100.100.0 0.0.0.255 area 0
-  
-  - name: right.pod - isakmp enable
-    ios_config:
-      lines:
-      - crypto isakmp enable
-    
-  - name: right.pod - isakmp configuration
-    ios_config:
-      parents: crypto isakmp policy 1
-      lines:
-      - authentication pre-share
-      - encryption des
-      - hash md5
-      - group 5
-    
-  - name: right.pod - isakmp key configuration
-    ios_config:
-      lines:
-      - crypto isakmp key cisco hostname left.pod.unakbars.ru
-    
   - name: right.pod - ipsec transform set
     ios_config:
       parents: crypto ipsec transform-set SET1 esp-des esp-md5-hmac
       lines:
       - mode tunnel
     
-  - name: right.pod - ipsec transform set
+  - name: right.pod - ipsec profile
     ios_config:
       parents: crypto ipsec profile VPN1
       lines:
@@ -229,19 +144,19 @@
     ios_config:
       parents: int tunnel 1
       lines:
-      - ip address 100.100.100.2 255.255.255.252
+      - ip address 100.100.100.1 255.255.255.252
+      - tunnel destination right.pod.unakbars.ru
       - tunnel mode gre ip
-      - tunnel destination left.pod.unakbars.ru
       - tunnel source gi1
       - tunnel protection ipsec profile VPN1
   
   - name: right.pod - ACL for NAT and IPSec
     ios_config:
       lines:
-      - access-list 100 deny ip 192.168.200.0 0.0.0.255 192.168.100.0 0.0.0.255
-      - access-list 100 permit gre 192.168.200.0 0.0.0.255 any
+      - access-list 100 deny ip 192.168.100.0 0.0.0.255 192.168.200.0 0.0.0.255
+      - access-list 100 permit gre 192.168.100.0 0.0.0.255 any
       - ip nat inside source list 100 interface g1 overload
-      - ip nat inside source static tcp 192.168.200.10 22 interface g1 2222
+      - ip nat inside source static tcp 192.168.100.10 22 interface g1 2222
     
   - name: right.pod - PAT - gi1
     ios_config:
@@ -260,6 +175,4 @@
       lines:
       - ntp server 200.100.100.254
       - clock timezone UTC 3
-    
-    
     
