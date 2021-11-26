@@ -3,10 +3,10 @@
   tasks:
   - name: Set 192.168.100.254 gi2 left
     ios_config:
-     parents: "interface gi2"
-     lines:
-       - ip address 192.168.100.254 255.255.255.0
-       - no shut
+    parents: "interface gi2"
+    lines:
+      - ip address 192.168.100.254 255.255.255.0
+      - no shut
   
   - name: OSPF routing 
     ios_config:
