@@ -40,7 +40,7 @@
       lines:
       - mode tunnel
     
-  - name: ipsec transform set
+  - name: ipsec profile
     ios_config:
       parents: crypto ipsec profile VPN1
       lines:
