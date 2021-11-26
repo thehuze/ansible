@@ -29,19 +29,19 @@
     command: mkdir /opt/ca/
   
   - openssl_privatekey:
-    path: /opt/ca/private.key
-    size: 2048 
+      path: /opt/ca/private.key
+      size: 2048 
 
   - openssl_csr:
-    path: /opt/ca/request.csr
-    privatekey_path: /opt/ca/private.key
-    common_name: '*.unakbars.ru'
+      path: /opt/ca/request.csr
+      privatekey_path: /opt/ca/private.key
+      common_name: '*.unakbars.ru'
 
   - openssl_certificate:
-    provider: selfsigned
-    path: /opt/ca/certificate.crt
-    privatekey_path: /opt/ca/private.key
-    csr_path: /opt/ca/request.csr
+      provider: selfsigned
+      path: /opt/ca/certificate.crt
+      privatekey_path: /opt/ca/private.key
+      csr_path: /opt/ca/request.csr
     
 # Настраиваем NTP    
 - name: NTP configuration
