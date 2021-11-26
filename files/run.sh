@@ -1,0 +1,1 @@
+docker run --restart=always -p 5000:5000 responding-app --ad_ip_addr 192.168.0.2 --db_conn_string postgresql://admin:Passw0rd_@200.100.100.50:5432/admin --external_link ya.ru

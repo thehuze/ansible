@@ -22,16 +22,16 @@
      state: present
   
   - name: Application load
-    shell:
-      cmd: docker load < /opt/responding-app.tar
-  #- name: Docker run
-  #  docker_container:
-  #    name: responding-app
-  #    restart: yes
-  #    restart_policy: always
-  #    ports:
-  #    - '5000:5000'
-  #    labels: '--ad_ip_addr 192.168.0.2 --db_conn_string postgresql://admin:Passw0rd_@200.100.100.50:5432/admin --external_link ya.ru'
-  - name: App start
-    shell: docker run --restart=always -p 5000:5000 responding-app --ad_ip_addr 192.168.0.2 --db_conn_string postgresql://admin:Passw0rd_@200.100.100.50:5432/admin --external_link ya.ru
-    
+    shell: docker load < /opt/responding-app.tar
+      
+  - name: Application run
+    copy:
+      src: /opt/run.sh
+      dest: /opt/run.sh
+      owner: root
+      group: root
+      mode: '0777'
+      backup: no
+  - name: Application load
+    shell: sh /opt/run.sh
+  #    docker run --restart=always -p 5000:5000 responding-app --ad_ip_addr 192.168.0.2 --db_conn_string postgresql://admin:Passw0rd_@200.100.100.50:5432/admin --external_link ya.ru
