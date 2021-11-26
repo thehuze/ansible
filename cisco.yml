@@ -80,7 +80,6 @@
     ios_config:
       lines:
       - ntp server 200.100.100.254
-      - ntp update-calendar
     
 # RIGHT ROUTER CONF
 - name: Cisco configuration
@@ -165,7 +164,6 @@
     ios_config:
       lines:
       - ntp server 200.100.100.254
-      - ntp update-calendar
     
     
     
