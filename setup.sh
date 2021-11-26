@@ -1,5 +1,5 @@
 
-
+cp ./files /opt/
 ansible-playbook linux_db.yml
 ansible-playbook linux_ssl.yml
 ansible-playbook linux_ntp.yml
