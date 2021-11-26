@@ -8,19 +8,19 @@
         - ip address 192.168.100.254 255.255.255.0
         - no shut
   
-  - name: OSPF routing 
+  - name: left.pod - OSPF routing 
     ios_config:
       parents: router ospf 1
       lines:
         - network 192.168.100.0 0.0.0.255 area 0
         - network 200.100.100.0 0.0.0.255 area 0
   
-  - name: isakmp enable
+  - name: left.pod - isakmp enable
     ios_config:
       lines:
         - crypto isakmp enable
     
-  - name: isakmp configuration
+  - name: left.pod - isakmp configuration
     ios_config:
       parents: crypto isakmp policy 1
       lines:
@@ -29,24 +29,24 @@
       - hash md5
       - group 5
     
-  - name: isakmp key configuration
+  - name: left.pod - isakmp key configuration
     ios_config:
       lines:
       - crypto isakmp key cisco hostname right.pod.unakbars.ru
     
-  - name: ipsec transform set
+  - name: left.pod - ipsec transform set
     ios_config:
       parents: crypto ipsec transform-set SET1 esp-des esp-md5-hmac
       lines:
       - mode tunnel
     
-  - name: ipsec profile
+  - name: left.pod - ipsec profile
     ios_config:
       parents: crypto ipsec profile VPN1
       lines:
       - set transform-set SET1
     
-  - name: tunnel configuration
+  - name: left.pod - tunnel configuration
     ios_config:
       parents: int tunnel 1
       lines:
@@ -56,7 +56,7 @@
       - tunnel source gi1
       - tunnel protection ipsec profile VPN1
   
-  - name: ACL for NAT and IPSec
+  - name: left.pod - ACL for NAT and IPSec
     ios_config:
       lines:
       - access-list 100 deny ip 192.168.100.0 0.0.0.255 192.168.200.0 0.0.0.255
@@ -64,19 +64,19 @@
       - ip nat inside source list 100 interface g1 overload
       - ip nat inside source static tcp 192.168.100.10 22 interface g1 2222
     
-  - name: PAT - gi1
+  - name: left.pod - PAT - gi1
     ios_config:
       parents: int gi1
       lines:
       - ip nat outside
   
-  - name: PAT - gi2
+  - name: left.pod - PAT - gi2
     ios_config:
       parents: int gi2
       lines:
       - ip nat inside
     
-  - name: NTP enable
+  - name: left.pod - NTP enable
     ios_config:
       lines:
       - ntp server 200.100.100.254
@@ -93,19 +93,19 @@
       - ip address 192.168.200.254 255.255.255.0
       - no shut
   
-  - name: OSPF routing 
+  - name: right.pod - OSPF routing 
     ios_config:
       parents: router ospf 1
       lines:
       - network 192.168.200.0 0.0.0.255 area 0
       - network 200.100.100.0 0.0.0.255 area 0
   
-  - name: isakmp enable
+  - name: right.pod - isakmp enable
     ios_config:
       lines:
       - crypto isakmp enable
     
-  - name: isakmp configuration
+  - name: right.pod - isakmp configuration
     ios_config:
       parents: crypto isakmp policy 1
       lines:
@@ -114,24 +114,24 @@
       - hash md5
       - group 5
     
-  - name: isakmp key configuration
+  - name: right.pod - isakmp key configuration
     ios_config:
       lines:
       - crypto isakmp key cisco hostname left.pod.unakbars.ru
     
-  - name: ipsec transform set
+  - name: right.pod - ipsec transform set
     ios_config:
       parents: crypto ipsec transform-set SET1 esp-des esp-md5-hmac
       lines:
       - mode tunnel
     
-  - name: ipsec transform set
+  - name: right.pod - ipsec transform set
     ios_config:
       parents: crypto ipsec profile VPN1
       lines:
       - set transform-set SET1
     
-  - name: tunnel configuration
+  - name: right.pod - tunnel configuration
     ios_config:
       parents: int tunnel 1
       lines:
@@ -141,7 +141,7 @@
       - tunnel source gi1
       - tunnel protection ipsec profile VPN1
   
-  - name: ACL for NAT and IPSec
+  - name: right.pod - ACL for NAT and IPSec
     ios_config:
       lines:
       - access-list 100 deny ip 192.168.200.0 0.0.0.255 192.168.100.0 0.0.0.255
@@ -149,19 +149,19 @@
       - ip nat inside source list 100 interface g1 overload
       - ip nat inside source static tcp 192.168.200.10 22 interface g1 2222
     
-  - name: PAT - gi1
+  - name: right.pod - PAT - gi1
     ios_config:
       parents: int gi1
       lines:
       - ip nat outside
   
-  - name: PAT - gi2
+  - name: right.pod - PAT - gi2
     ios_config:
       parents: int gi2
       lines:
       - ip nat inside
     
-  - name: NTP enable
+  - name: right.pod - NTP enable
     ios_config:
       lines:
       - ntp server 200.100.100.254
