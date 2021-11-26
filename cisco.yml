@@ -130,7 +130,7 @@
   - name: right.pod - isakmp key configuration
     ios_config:
       lines:
-      - crypto isakmp key cisco hostname right.pod.unakbars.ru
+      - crypto isakmp key cisco hostname left.pod.unakbars.ru
     
   - name: right.pod - ipsec transform set
     ios_config:
