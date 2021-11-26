@@ -84,6 +84,7 @@
       lines:
       - ntp server 200.100.100.254
       - clock timezone UTC 3
+      - do wr
     
 # RIGHT ROUTER CONF
 - name: Cisco configuration
@@ -181,4 +182,5 @@
       lines:
       - ntp server 200.100.100.254
       - clock timezone UTC 3
+      - do wr
     
