@@ -80,6 +80,7 @@
     ios_config:
       lines:
       - ntp server 200.100.100.254
+      - clock timezone UTC 3
     
 # RIGHT ROUTER CONF
 - name: Cisco configuration
@@ -164,6 +165,7 @@
     ios_config:
       lines:
       - ntp server 200.100.100.254
+      - clock timezone UTC 3
     
     
     
