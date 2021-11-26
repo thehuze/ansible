@@ -115,7 +115,6 @@
       - group 5
     
   - name: right.pod - isakmp key c
-  - name: left.pod - isakmp configuration
     ios_config:
       parents: crypto isakmp policy 1
       lines:
