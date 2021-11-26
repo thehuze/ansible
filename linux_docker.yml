@@ -4,14 +4,22 @@
   hosts: web1, web2
   tasks:
   - name: Docker packages download
+    package:
+     name: apt-transport-https, ca-certificates, curl, software-properties-common
+     state: present
+     
+  - name: Docker repo add
     shell:
       cmd: "{{item}}"
     loop:
-    - sudo apt install apt-transport-https ca-certificates curl software-properties-common
     - wget https://download.docker.com/linux/ubuntu/gpg
     - sudo apt-key add gpg
     - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
-    - sudo apt install docker-ce
+    
+  - name: Docker install
+    package:
+     name: docker-ce
+     state: present
   
   - name: Application run
     shell:
