@@ -8,7 +8,7 @@
      state: present
    
   - name: Prepare DB - User configuration / Allow to connect
-    command: "{{item}}"
+    shell: "{{item}}"
     loop:
     - sudo -u postgres createuser -dls admin
     - sudo -u postgres psql -c "ALTER USER admin WITH PASSWORD 'Passw0rd_';"
